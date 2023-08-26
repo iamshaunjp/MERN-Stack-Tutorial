@@ -1,5 +1,6 @@
 const express = require("express")
 const dotenv = require("dotenv")
+const mongoose = require("mongoose")
 const restaurants = require("./routes/restaurants")
 
 dotenv.config()
@@ -15,8 +16,16 @@ app.use((req, res, next) => {
 // routes
 app.use("/restaurants", restaurants)
 
-// listen for request
-app.listen(process.env.PORT, ()=> {
-  console.log("Listening on port", process.env.PORT)
-})
+// connect db
+mongoose.connect(process.env.MONGO_DB_URL)
+  .then(()=>{
+    // listen for request
+    app.listen(process.env.PORT, ()=> {
+      console.log("Listening on port", process.env.PORT)
+    })
+  })
+  .catch((err)=>{
+    console.error(`Error occured while connecting db: ${err}`)
+  })
+
 

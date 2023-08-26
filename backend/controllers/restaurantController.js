@@ -1,6 +1,7 @@
 const Restaurant = require("../models/restaurantModel")
 const mongoose = require("mongoose")
 
+// get all
 const getAllRestaurants = async(req, res)=>{
   const restaurants = await Restaurant.find({}).sort({createdAt: -1})
 
@@ -8,8 +9,9 @@ const getAllRestaurants = async(req, res)=>{
     return res.status(200).json({status:true, msg:"No Restaurants Found"})
   }
   res.status(200).json(restaurants)
-} 
+}
 
+// get one
 const getRestaurant = async(req, res)=>{
   const { id } = req.params
   if(!mongoose.Types.ObjectId.isValid(id)){
@@ -23,6 +25,7 @@ const getRestaurant = async(req, res)=>{
   res.status(200).json({status: true, msg: restaurant})
 }
 
+// create new
 const createRestaurant = async(req, res) =>{
   const {title, cuisine} = req.body
 
@@ -35,12 +38,36 @@ const createRestaurant = async(req, res) =>{
   }
 }
 
-const editRestaurant =  (req, res) =>{
-  res.status(200).json({status: true, msg:"Modify success"})
+// edit
+const editRestaurant = async (req, res) =>{
+
+  const { id } = req.params
+  if(!mongoose.Types.ObjectId.isValid(id)){
+    return res.status(404).json({mgs:"Faild to find this object"})
+  }
+  const restaurant = await Restaurant.findOneAndUpdate({ _id: id },{
+    ...req.body
+  })
+
+  if(!restaurant){
+    return res.status(404).json({stauts: false, msg:"Restaurant Data Not Found"})
+  }
+  res.status(200).json({status: true, msg: "Update sucessfully"})
 }
 
-const deleteRestaurant = (req, res) =>{
-  res.status(200).json({status: true, msg:"Delete success"})
+
+// delete
+const deleteRestaurant = async(req, res) =>{
+  const { id } = req.params
+  if(!mongoose.Types.ObjectId.isValid(id)){
+    return res.status(404).json({mgs:"Faild to find this object"})
+  }
+  const restaurant = await Restaurant.findOneAndDelete(id)
+
+  if(!restaurant){
+    return res.status(404).json({stauts: false, msg:"Restaurant Data Not Found"})
+  }
+  res.status(200).json({status: true, msg: "Delete sucessfully"})
 }
 
 module.exports = {

@@ -21,7 +21,7 @@ router.post("/", createRestaurant)
 // modify restaurant
 router.patch("/:id", editRestaurant)
 
-// delete restaurantt
+// delete restaurant
 router.delete("/:id", deleteRestaurant)
 
 module.exports = router

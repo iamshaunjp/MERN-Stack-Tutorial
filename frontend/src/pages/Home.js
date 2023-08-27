@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react"
 import RestaurantDetail from "../components/restaurantDetail"
+import RestaurantForm from "../components/RestaurantForm"
+
 
 const Home = () =>{
   const [restaurants, setRestaurants] = useState(null)
@@ -25,6 +27,7 @@ const Home = () =>{
         restaurant={restaurant} />
       ))}
       </div>
+    <RestaurantForm />
     </div>
   )
 }

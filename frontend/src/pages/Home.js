@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react"
+import RestaurantDetail from "../components/restaurantDetail"
 
 const Home = () =>{
   const [restaurants, setRestaurants] = useState(null)
 
   useEffect(() => {
     const fetchRestaurants = async() => {
-      const res = await fetch("http://localhost:5000/restaurants")
+      const res = await fetch("/restaurants")
       const json = await res.json()
 
       if(res.ok){
@@ -20,10 +21,8 @@ const Home = () =>{
     <div className="home">
       <div className="restaurants">
       {restaurants && restaurants.map((restaurant)=>(
-      <div key={restaurant._id}>
-        <p>{restaurant.title}</p>
-        <p>{restaurant.cuisine}</p>
-      </div>
+        <RestaurantDetail key={restaurant._id}
+        restaurant={restaurant} />
       ))}
       </div>
     </div>

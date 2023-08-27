@@ -1,6 +1,8 @@
 import {useState} from "react"
+import { useRestaurantsContext } from "../hooks/useRestaurantsContext"
 
 const RestaurantForm = () =>{
+  const {dispatch} = useRestaurantsContext()
   const [title, setTitle] = useState('')
   const [cuisine, setCuisine] = useState('')
   const [error, setError] = useState(null)
@@ -27,6 +29,7 @@ const RestaurantForm = () =>{
       setCuisine('')
       setError(null)
       console.log("new restaurant added", json.msg)
+      dispatch({type:"CREATE_RESTAURANT", payload: json.msg})
     }
   }
   return (

@@ -31,7 +31,7 @@ const createRestaurant = async(req, res) =>{
 
   try{
     const restaurant = await Restaurant.create({ title, cuisine })
-    res.status(200).json({status: true, msg:"Post success", restaurant})
+    res.status(200).json({status: true, msg: restaurant})
   }
   catch(err){
     return res.status(500).json({status: false, msg:`Post Create failed: ${err}`})

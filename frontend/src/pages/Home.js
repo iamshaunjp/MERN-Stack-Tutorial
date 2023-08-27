@@ -1,10 +1,10 @@
-import { useEffect, useState } from "react"
+import { useEffect } from "react"
 import RestaurantDetail from "../components/restaurantDetail"
 import RestaurantForm from "../components/RestaurantForm"
-
+import { useRestaurantsContext } from "../hooks/useRestaurantsContext"
 
 const Home = () =>{
-  const [restaurants, setRestaurants] = useState(null)
+  const {restaurants, dispatch} = useRestaurantsContext()
 
   useEffect(() => {
     const fetchRestaurants = async() => {
@@ -12,7 +12,7 @@ const Home = () =>{
       const json = await res.json()
 
       if(res.ok){
-        setRestaurants(json)
+        dispatch({type: "SET_RESTAURANTS", payload:json})
       }
     }
 

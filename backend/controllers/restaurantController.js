@@ -17,7 +17,7 @@ const getRestaurant = async(req, res)=>{
   if(!mongoose.Types.ObjectId.isValid(id)){
     return res.status(404).json({mgs:"Faild to find this object"})
   }
-  const restaurant = await Restaurant.findById(id)
+  const restaurant = await Restaurant.findById({ _id:id })
 
   if(!restaurant){
     return res.status(404).json({stauts: false, msg:"Restaurant Data Not Found"})
@@ -52,7 +52,7 @@ const editRestaurant = async (req, res) =>{
   if(!restaurant){
     return res.status(404).json({stauts: false, msg:"Restaurant Data Not Found"})
   }
-  res.status(200).json({status: true, msg: "Update sucessfully"})
+  res.status(200).json(restaurant)
 }
 
 

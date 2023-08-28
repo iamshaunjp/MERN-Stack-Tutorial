@@ -62,12 +62,12 @@ const deleteRestaurant = async(req, res) =>{
   if(!mongoose.Types.ObjectId.isValid(id)){
     return res.status(404).json({mgs:"Faild to find this object"})
   }
-  const restaurant = await Restaurant.findOneAndDelete(id)
+  const restaurant = await Restaurant.findOneAndDelete({ _id: id })
 
   if(!restaurant){
     return res.status(404).json({stauts: false, msg:"Restaurant Data Not Found"})
   }
-  res.status(200).json({status: true, msg: "Delete sucessfully"})
+  res.status(200).json(restaurant)
 }
 
 module.exports = {

@@ -6,7 +6,7 @@ const RestaurantForm = () =>{
   const [title, setTitle] = useState('')
   const [cuisine, setCuisine] = useState('')
   const [error, setError] = useState(null)
-
+  const [emptyFields, setEmptyFields] = useState([])
   const handleSubmit = async(e) =>{
     e.preventDefault()
 
@@ -22,12 +22,14 @@ const RestaurantForm = () =>{
 
     // set the same value in server
     if(!res.ok){
-      setError(json.msg)
+      setError(json.error)
+      setEmptyFields(json.emptyFields)
     }
     if(res.ok){
       setTitle('')
       setCuisine('')
       setError(null)
+      setEmptyFields([])
       console.log("new restaurant added", json.msg)
       dispatch({type:"CREATE_RESTAURANT", payload: json.msg})
     }
@@ -42,11 +44,13 @@ const RestaurantForm = () =>{
      <input type="text"
      onChange = {(e) => setTitle(e.target.value) }
      value={title}
+     className={emptyFields.includes("title") ? "error" : ""}
      />
      <label>Restaurant Cuisine</label>
      <input type="text"
      onChange = {(e) => setCuisine(e.target.value) }
      value={cuisine}
+     className={emptyFields.includes("cuisine") ? "error" : ""}
      />
      <button>Submit Restaurant</button>
     {error && <div className="error">{error}</div>}

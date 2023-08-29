@@ -28,6 +28,18 @@ const getRestaurant = async(req, res)=>{
 // create new
 const createRestaurant = async(req, res) =>{
   const {title, cuisine} = req.body
+  const emptyFields = []
+  
+  // empty handling
+  if(!title){
+    emptyFields.push("title")
+  }
+  if(!cuisine){
+    emptyFields.push("cuisine")
+  }
+  if(emptyFields.length > 0){
+    return res.status(400).json({error: "Please fill in all the field.", emptyFields})
+  }
 
   try{
     const restaurant = await Restaurant.create({ title, cuisine })
